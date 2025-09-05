@@ -1,11 +1,13 @@
-@if (isLoggedInPage) {
-  <router-outlet></router-outlet>
-} @else {
-  <app-header></app-header>
-
-  <div class="content-container">
+@if (isAppReady) {
+  @if (isAuthPage) {
     <router-outlet></router-outlet>
-  </div>
+  } @else {
+    <app-header></app-header>
 
-  <app-footer></app-footer>
+    <div class="content-container">
+      <router-outlet></router-outlet>
+    </div>
+
+    <app-footer></app-footer>
+  }
 }

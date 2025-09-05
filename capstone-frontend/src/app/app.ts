@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
 })
 export class App implements OnInit, OnDestroy {
   protected readonly title = signal('capstone-frontend');
-  isLoggedInPage: boolean = false;
+  isAuthPage: boolean = false;
   private routerSubscription!: Subscription;
   isAppReady: boolean = false; // Nueva bandera
 
@@ -23,16 +23,16 @@ export class App implements OnInit, OnDestroy {
     this.routerSubscription = this.router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.checkLoginRoute(event.url);
-      this.isAppReady = true; // El enrutador ha terminado, la aplicación está lista
+      this.checkAuthRoute(event.url);
+      this.isAppReady = true;
     });
-    // Verificación inicial para la primera carga
-    this.checkLoginRoute(this.router.url);
+
+    this.checkAuthRoute(this.router.url);
     this.isAppReady = true;
   }
 
-  private checkLoginRoute(url: string) {
-    this.isLoggedInPage = url.includes('/login');
+  private checkAuthRoute(url: string) {
+    this.isAuthPage = url.includes('/login') || url.includes('/register');
   }
 
   ngOnDestroy() {

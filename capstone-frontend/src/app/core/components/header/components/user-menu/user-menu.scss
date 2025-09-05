@@ -1,0 +1,46 @@
+.user-menu-button {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  text-transform: capitalize;
+  border-radius: 20px;
+  padding: 0 12px 0 16px;
+  line-height: 36px;
+}
+
+.username {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .username {
+    display: none;
+  }
+  .user-menu-button {
+    padding: 0;
+    min-width: 40px;
+    border-radius: 50%;
+  }
+}
+
+::ng-deep {
+  .mat-mdc-menu-item {
+    app-button-logout {
+      width: 100%;
+      ::ng-deep button {
+        justify-content: flex-start;
+        padding: 0;
+        font-weight: normal;
+
+        &:hover {
+          background: none;
+        }
+      }
+    }
+    .mat-icon {
+      margin-right: 16px;
+    }
+  }
+}

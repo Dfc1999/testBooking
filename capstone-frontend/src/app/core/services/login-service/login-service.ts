@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -9,7 +9,16 @@ import { Router } from '@angular/router';
 export class LoginService {
   private apiUrl = 'http://localhost:3000/auth';
 
+  private loggedIn = new BehaviorSubject<boolean>(this.hasToken());
+
+  public isLoggedIn$ = this.loggedIn.asObservable();
+
+
   constructor(private http: HttpClient, private router: Router) {}
+
+  private hasToken(): boolean {
+    return !!localStorage.getItem('accessToken');
+  }
 
   login(username: string, password: string) {
     return this.http.post<any>(`${this.apiUrl}/login`, { username, user_password: password })
@@ -18,6 +27,7 @@ export class LoginService {
           if (res.accessToken) {
             localStorage.setItem('accessToken', res.accessToken);
             localStorage.setItem('username', username);
+            this.loggedIn.next(true);
           }
         })
       );
@@ -28,6 +38,7 @@ export class LoginService {
       tap(() => {
         localStorage.removeItem('accessToken');
         localStorage.removeItem('username');
+        this.loggedIn.next(false);
         this.router.navigate(['/login']);
       })
     );

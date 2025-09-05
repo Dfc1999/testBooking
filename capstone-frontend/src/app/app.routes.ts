@@ -9,6 +9,10 @@ export const routes: Routes = [
     loadComponent: () => import('./core/pages/login/login').then(mod => mod.LoginComponent)
   },
   {
+    path: 'register',
+    loadComponent: () => import('./core/pages/register/register').then(mod => mod.Register)
+  },
+  {
     path: 'hotel/:id',
     loadComponent: () => import('./features/hotel-detail-page/hotel-detail-page').then(mod => mod.HotelDetailPage)
   },
